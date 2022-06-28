@@ -37,6 +37,11 @@ var createOption = document.createElement("ul");
             choices: ["Javascript", "terminal / bash", "for loops", "console log"],
             answer: "console log"
         },
+        {
+            title: "Whose the best Peter?",
+            choices: ["Peter Collela", "Peter Parker", "Saint Peter", "Peter Jackson"],
+            answer: "Peter Collela"
+        },
     ]; 
 
     // Display question/ start countdown
@@ -46,7 +51,7 @@ var createOption = document.createElement("ul");
     });
 
     function startQuiz(questionIndex) {
-        // Clear the screen
+        // Clear screen
             createOption.innerHTML = "";
             mainEl.innerHTML = "";
         
@@ -55,7 +60,7 @@ var createOption = document.createElement("ul");
             // display the selected question title
             var questionTitle = questions[questionIndex].title;
             var questionChoices = questions[questionIndex].choices;
-            // add the Question title to the page
+
             mainEl.textContent= questionTitle;
         }
         questionChoices.forEach(function (newButton) {
@@ -76,21 +81,21 @@ var createOption = document.createElement("ul");
 
                 var createDiv = document.createElement("div");
                 createDiv.setAttribute("id", "createDiv");
-                // If answer is correct
+                // if correct
                 if (element.textContent == questions[questionIndex].answer) {
                     score ++;
                     alert("That is correct! The answer is: " + questions[questionIndex].answer);
                 }
                 else {
-                    // If answer is incorrect, remove 10 seconds from the timer
+                    // If incorrect remove 10 seconds from the timer
                     timeLeft = timeLeft - penalty;
                     alert("That is incorrect! The correct answer is: " + questions[questionIndex].answer);
                 }
             }
-            // move on to the next question
+           
             questionIndex ++;
 
-            // check if quiz is done (either if it was the last question or time is up)
+            // check if quiz is done 
             if (questionIndex >= questions.length) {
                 quizComplete();
                 createDiv.textContent = "Quiz complete! You got " + score + " answers correct.";    
@@ -106,20 +111,18 @@ var createOption = document.createElement("ul");
             mainEl.innerHTML = "";
             stopCountdown();
 
-            // Add a heading element to let user know the quiz is done
+            // tell user that quix is over with an h1 title
             var h1El = document.createElement("h1");
             h1El.setAttribute("id", "h1El");
             h1El.textContent = "All done!"
 
             mainEl.appendChild(h1El);
-
-            // Add a Paragraph element
             var pEl = document.createElement("p");
             pEl.setAttribute("id", "pEl");
 
             mainEl.appendChild(pEl);
 
-            // Calculates time remaining and replaces it with score
+            // adds time remaining with score 
             if (timeLeft >= 0) {
                 var timeRemaining = timeLeft;
                 var pEl2 = document.createElement("p");
@@ -127,14 +130,14 @@ var createOption = document.createElement("ul");
                 mainEl.appendChild(pEl2);
             }
 
-            // add a Label element for the high score initials
+            //labels score with initials
             var createLabel = document.createElement("label");
             createLabel.setAttribute("id", "createLabel");
             createLabel.textContent = "Enter your initials: ";
 
             mainEl.appendChild(createLabel);
 
-            // add an input so user can input their initials
+            // sets users initials
             var createInput = document.createElement("input");
             createInput.setAttribute("type", "text");
             createInput.setAttribute("id", "initials");
@@ -142,7 +145,7 @@ var createOption = document.createElement("ul");
 
             mainEl.appendChild(createInput);
 
-            // add a submit button for high score capture
+            // button to capture highscore
             var createSubmit = document.createElement("button");
             createSubmit.setAttribute("type", "submit");
             createSubmit.setAttribute("id", "Submit");
@@ -151,7 +154,7 @@ var createOption = document.createElement("ul");
             mainEl.appendChild(createSubmit);
 
 
-            // adding the high score to the local storage
+            // local stoage highscore
             createSubmit.addEventListener("click", function () {
                 var initials = createInput.value;
         
