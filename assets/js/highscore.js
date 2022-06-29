@@ -10,15 +10,15 @@ clearScores.addEventListener("click", function () {
 });
 
 // displayhigh scores
-var allScores = localStorage.getItem("allScores");
-allScores = JSON.parse(allScores);
+var highScores = localStorage.getItem("highScores");
+highScores = JSON.parse(highScores);
 
-if (allScores !== null) {
+if (highScores !== null) {
 
-    for (var i = 0; i < allScores.length; i++) {
+    for (var i = 0; i < highScores.length; i++) {
 
         var createDiv = document.createElement("div");
-        createDiv.textContent = allScores[i].initials + " " + allScores[i].score;
+        createDiv.textContent = highScores[i].initials + " " + highScores[i].score;
         createDiv.setAttribute("id", "high-score")
         highScore.appendChild(createDiv);
 

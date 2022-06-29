@@ -4,18 +4,28 @@ var questionIndex = 0;
 var timeLeft = 90;
 var timeInterval = "";
 var timerEl = document.getElementById("countdown");
-var mainEl = document.getElementById("mainGame");
+var mainGameEl = document.getElementById("mainGame");
 var startBtn = document.getElementById("start");
-var timeIsUpMessage = "You have run out of time!";
+var timeOver = "You have run out of time";
 var penalty = "10";
 var createOption = document.createElement("ul");
 
-    // questions index
+
     var questions = [
+        {
+            title: "String values must be enclosed within ____ when being assigned to variables.",
+            choices: ["commas", "curly brackets", "quotes", "parentheses"],
+            answer: "quotes"
+        },
         {
             title: "Commonly used data types DO NOT include:",
             choices: ["strings", "booleans", "alerts", "numbers"],
             answer: "alerts"
+        },
+        {
+            title: "A very useful tool used during development and debugging for printing content to the debugger is:",
+            choices: ["Javascript", "terminal / bash", "for loops", "console log"],
+            answer: "console log"
         },
         {
             title: "The condition in an if / else statement is enclosed within ____.",
@@ -23,19 +33,9 @@ var createOption = document.createElement("ul");
             answer: "parentheses"
         },
         {
-            title: "Arrays in Javascript can be used to store ____.",
-            choices: ["numbers and strings", "other arrays", "booleans", "all of the above"],
-            answer: "all of the above"
-        },
-        {
-            title: "String values must be enclosed within ____ when being assigned to variables.",
-            choices: ["commas", "curly brackets", "quotes", "parentheses"],
-            answer: "quotes"
-        },
-        {
-            title: "A very useful tool used during development and debugging for printing content to the debugger is:",
-            choices: ["Javascript", "terminal / bash", "for loops", "console log"],
-            answer: "console log"
+            title: "What is the HTML tag under which one can write the JavaScript code?",
+            choices: ["<javascript>", "<scripted>", "<script>", "<js>"],
+            answer: "<script>"
         },
         {
             title: "Whose the best Peter?",
@@ -44,36 +44,36 @@ var createOption = document.createElement("ul");
         },
     ]; 
 
-    // Display question/ start countdown
+    //question/ start countdown
     startBtn.addEventListener("click", function() {
         countdown();
         startQuiz(questionIndex);
     });
 
     function startQuiz(questionIndex) {
-        // Clear screen
+        // clear screen
             createOption.innerHTML = "";
-            mainEl.innerHTML = "";
+            mainGameEl.innerHTML = "";
         
-        // Loop to go through all the questions
+        // loop to go through all the questions
         for (var i = 0; i < questions.length; i++) {
             // display the selected question title
             var questionTitle = questions[questionIndex].title;
             var questionChoices = questions[questionIndex].choices;
 
-            mainEl.textContent= questionTitle;
+            mainGameEl.textContent= questionTitle;
         }
         questionChoices.forEach(function (newButton) {
             var optionList = document.createElement("button");
             optionList.textContent = newButton;
             optionList.setAttribute("id", "choices");
-            mainEl.appendChild(createOption);
+            mainGameEl.appendChild(createOption);
             createOption.appendChild(optionList);
-            optionList.addEventListener("click", (compareAnswer));
+            optionList.addEventListener("click", (correctAnswer));
         })
         };
 
-        function compareAnswer(event) {
+        function correctAnswer(event) {
             var element = event.target;
             console.log(element);
 
@@ -81,53 +81,53 @@ var createOption = document.createElement("ul");
 
                 var createDiv = document.createElement("div");
                 createDiv.setAttribute("id", "createDiv");
-                // if correct
-                if (element.textContent == questions[questionIndex].answer) {
-                    score ++;
-                    alert("That is correct! The answer is: " + questions[questionIndex].answer);
-                }
-                else {
-                    // If incorrect remove 10 seconds from the timer
-                    timeLeft = timeLeft - penalty;
-                    alert("That is incorrect! The correct answer is: " + questions[questionIndex].answer);
-                }
+                // correct
+                    if (element.textContent == questions[questionIndex].answer) {
+                        score ++;
+                        alert("That's right. The answer is: " + questions[questionIndex].answer);
+                    }
+                    else {
+                        // incorrect remove 10 seconds 
+                        timeLeft = timeLeft - penalty;
+                        alert("That's wrong. The correct answer is: " + questions[questionIndex].answer);
+                    }
             }
            
             questionIndex ++;
 
             // check if quiz is done 
             if (questionIndex >= questions.length) {
-                quizComplete();
-                createDiv.textContent = "Quiz complete! You got " + score + " answers correct.";    
+                quizDone();
+                createDiv.textContent = "Quiz over. You got " + score + " answers correct.";    
                 }
                 else {
                     startQuiz(questionIndex);                    
                 }
-                mainEl.appendChild(createDiv);
+                mainGameEl.appendChild(createDiv);
         }
 
-        // Quiz complete function
-        function quizComplete() {
-            mainEl.innerHTML = "";
+        // quiz complete function
+        function quizDone() {
+            mainGameEl.innerHTML = "";
             stopCountdown();
 
             // tell user that quix is over with an h1 title
             var h1El = document.createElement("h1");
             h1El.setAttribute("id", "h1El");
-            h1El.textContent = "All done!"
+            h1El.textContent = "All done"
 
-            mainEl.appendChild(h1El);
+            mainGameEl.appendChild(h1El);
             var pEl = document.createElement("p");
             pEl.setAttribute("id", "pEl");
 
-            mainEl.appendChild(pEl);
+            mainGameEl.appendChild(pEl);
 
             // adds time remaining with score 
             if (timeLeft >= 0) {
                 var timeRemaining = timeLeft;
                 var pEl2 = document.createElement("p");
                 pEl2.textContent = "Your final score is: " + timeRemaining;
-                mainEl.appendChild(pEl2);
+                mainGameEl.appendChild(pEl2);
             }
 
             //labels score with initials
@@ -135,7 +135,7 @@ var createOption = document.createElement("ul");
             createLabel.setAttribute("id", "createLabel");
             createLabel.textContent = "Enter your initials: ";
 
-            mainEl.appendChild(createLabel);
+            mainGameEl.appendChild(createLabel);
 
             // sets users initials
             var createInput = document.createElement("input");
@@ -143,7 +143,7 @@ var createOption = document.createElement("ul");
             createInput.setAttribute("id", "initials");
             createInput.textContent = "";
 
-            mainEl.appendChild(createInput);
+            mainGameEl.appendChild(createInput);
 
             // button to capture highscore
             var createSubmit = document.createElement("button");
@@ -151,7 +151,7 @@ var createOption = document.createElement("ul");
             createSubmit.setAttribute("id", "Submit");
             createSubmit.textContent = "Submit";
 
-            mainEl.appendChild(createSubmit);
+            mainGameEl.appendChild(createSubmit);
 
 
             // local stoage highscore
@@ -159,8 +159,8 @@ var createOption = document.createElement("ul");
                 var initials = createInput.value;
         
                 if (!initials) {
-                    alert("You must enter your initials!")        
-                    console.log("No value entered!");
+                    alert("You must enter your initials")        
+                    console.log("No value entered");
         
                 } else {
                     var finalScore = {
@@ -168,15 +168,15 @@ var createOption = document.createElement("ul");
                         score: timeRemaining
                     }
                     console.log(finalScore);
-                    var allScores = localStorage.getItem("allScores");
-                    if (allScores === null) {
-                        allScores = [];
+                    var highScores = localStorage.getItem("highScores");
+                    if (highScores === null) {
+                        highScores = [];
                     } else {
-                        allScores = JSON.parse(allScores);
+                        highScores = JSON.parse(highScores);
                     }
-                    allScores.push(finalScore);
-                    var newScore = JSON.stringify(allScores);
-                    localStorage.setItem("allScores", newScore);
+                    highScores.push(finalScore);
+                    var newScore = JSON.stringify(highScores);
+                    localStorage.setItem("highScores", newScore);
 
                     // bring user to high score page
                     window.location.replace("./highscore.html");
@@ -187,7 +187,7 @@ var createOption = document.createElement("ul");
 
         // timer function
         function countdown() {        
-            // Use the setInterval() method to call a function to be executed every 1000 milliseconds (every 1 second)
+            // use the setInterval() method to call a function to be executed every 1000 milliseconds (every 1 second)
             timeInterval = setInterval(function() {
             if(timeLeft >= 1) {
                 timerEl.textContent = "time remaining:  " + timeLeft;
@@ -198,11 +198,11 @@ var createOption = document.createElement("ul");
                 clearInterval(timeInterval);
                 console.log("I'm here");
                 displayMessage();
-                quizComplete();
+                quizDone();
             }
         
             function displayMessage() {
-                alert(timeIsUpMessage);
+                alert(timeOver);
             };
             }, 1000)
         }
