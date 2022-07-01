@@ -10,6 +10,29 @@ var timeOver = "You have run out of time";
 var penalty = "10";
 var createOption = document.createElement("ul");
 
+function startQuiz(questionIndex) {
+    // clear screen
+        createOption.innerHTML = "";
+        mainGameEl.innerHTML = "";
+    
+    // loop to go through all the questions
+    for (var i = 0; i < questions.length; i++) {
+        // display the selected question title
+        var questionTitle = questions[questionIndex].title;
+        var questionChoices = questions[questionIndex].choices;
+
+        mainGameEl.textContent= questionTitle;
+    }
+    questionChoices.forEach(function (newButton) {
+        var optionList = document.createElement("button");
+        optionList.textContent = newButton;
+        optionList.setAttribute("id", "choices");
+        mainGameEl.appendChild(createOption);
+        createOption.appendChild(optionList);
+        optionList.addEventListener("click", (correctAnswer));
+    })
+    };
+
 
     var questions = [
         {
@@ -49,29 +72,6 @@ var createOption = document.createElement("ul");
         countdown();
         startQuiz(questionIndex);
     });
-
-    function startQuiz(questionIndex) {
-        // clear screen
-            createOption.innerHTML = "";
-            mainGameEl.innerHTML = "";
-        
-        // loop to go through all the questions
-        for (var i = 0; i < questions.length; i++) {
-            // display the selected question title
-            var questionTitle = questions[questionIndex].title;
-            var questionChoices = questions[questionIndex].choices;
-
-            mainGameEl.textContent= questionTitle;
-        }
-        questionChoices.forEach(function (newButton) {
-            var optionList = document.createElement("button");
-            optionList.textContent = newButton;
-            optionList.setAttribute("id", "choices");
-            mainGameEl.appendChild(createOption);
-            createOption.appendChild(optionList);
-            optionList.addEventListener("click", (correctAnswer));
-        })
-        };
 
         function correctAnswer(event) {
             var element = event.target;
